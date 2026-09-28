@@ -7,7 +7,6 @@ from pathlib import Path
 
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, Qt, Signal, Slot
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication, QComboBox, QFrame, QHBoxLayout, QLabel, QMainWindow,
     QMessageBox, QProgressBar, QPushButton, QPlainTextEdit, QSizePolicy,
@@ -21,7 +20,10 @@ QSS = """
 QWidget { background:#0B1220; color:#E8EEF7; font-family:'Segoe UI','Ubuntu'; font-size:13px; }
 QMainWindow { background:#0B1220; }
 QFrame#card { background:#111C2E; border:1px solid #223451; border-radius:16px; }
-QLabel#title { font-size:26px; font-weight:700; color:#F6FAFF; }
+QFrame#hero { background:#0D1B2D; border:1px solid #1E4262; border-radius:20px; }
+QLabel#title { font-size:30px; font-weight:800; color:#F6FAFF; }
+QLabel#kicker { font-size:12px; font-weight:700; color:#45D6EF; letter-spacing:1px; }
+QLabel#heroSub { font-size:14px; color:#9DB1C9; }
 QLabel#subtitle { color:#91A4BD; }
 QLabel#metric { color:#8EA3BD; }
 QLabel#value { font-size:14px; font-weight:650; color:#F3F8FF; }
@@ -66,11 +68,11 @@ class MainWindow(QMainWindow):
         self.remote_manifest = core.read_bundled_manifest()
         self.detected_chip = None
         self.detected_mac = "-"
-        self.setWindowTitle(f"T500 Firmware Flasher v{APP_VERSION}")
-        self.setMinimumSize(980, 720)
+        self.setWindowTitle(f"T500 ESP32 Flasher v{APP_VERSION}")
+        self.setMinimumSize(1020, 760)
         self.setStyleSheet(QSS)
 
-        logo_path = core.bundle_root() / "assets/logo.svg"
+        logo_path = core.bundle_root() / "assets/logo.png"
         if logo_path.exists():
             self.setWindowIcon(QIcon(str(logo_path)))
 
@@ -80,23 +82,44 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(22, 20, 22, 20)
         layout.setSpacing(14)
 
-        header = QHBoxLayout()
+        hero = QFrame()
+        hero.setObjectName("hero")
+        header = QHBoxLayout(hero)
+        header.setContentsMargins(18, 16, 18, 16)
+        header.setSpacing(18)
+
         if logo_path.exists():
-            logo = QSvgWidget(str(logo_path))
-            logo.setFixedSize(72, 72)
+            logo = QLabel()
+            pm = QPixmap(str(logo_path))
+            logo.setPixmap(pm.scaled(132, 132, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            logo.setFixedSize(136, 136)
+            logo.setAlignment(Qt.AlignCenter)
             header.addWidget(logo)
+
         text = QVBoxLayout()
-        title = QLabel("T500 Firmware Flasher")
+        kicker = QLabel("AUBOT T500 • MAIN CONTROLLER SERVICE TOOL")
+        kicker.setObjectName("kicker")
+        title = QLabel("T500 ESP32 Flasher")
         title.setObjectName("title")
-        subtitle = QLabel("ESP32 / ESP32-S3 • Auto detect • Verified firmware • GitHub update channel")
-        subtitle.setObjectName("subtitle")
+        subtitle = QLabel("Nhận diện ESP32 / ESP32-S3 tự động • Firmware đã kiểm chứng • Cập nhật độc lập qua GitHub")
+        subtitle.setObjectName("heroSub")
+        text.addWidget(kicker)
         text.addWidget(title)
         text.addWidget(subtitle)
+        text.addStretch(1)
         header.addLayout(text, 1)
+
+        badge_col = QVBoxLayout()
         self.gui_badge = QLabel(f"GUI v{APP_VERSION}")
         self.gui_badge.setObjectName("badge")
-        header.addWidget(self.gui_badge, 0, Qt.AlignTop)
-        layout.addLayout(header)
+        badge_col.addWidget(self.gui_badge, 0, Qt.AlignRight)
+        fw_badge = QLabel("STABLE CHANNEL")
+        fw_badge.setObjectName("badge")
+        badge_col.addWidget(fw_badge, 0, Qt.AlignRight)
+        badge_col.addStretch(1)
+        header.addLayout(badge_col)
+
+        layout.addWidget(hero)
 
         top_card = QFrame(); top_card.setObjectName("card")
         top = QVBoxLayout(top_card); top.setContentsMargins(16,16,16,16); top.setSpacing(12)

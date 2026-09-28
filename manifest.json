@@ -2,15 +2,15 @@
   "schema": 1,
   "channel": "stable",
   "gui": {
-    "version": "1.0.1",
-    "release_tag": "gui-v1.0.1",
+    "version": "1.1.0",
+    "release_tag": "gui-v1.1.0",
     "windows": {
       "asset": "T500_Firmware_Flasher_Windows_x64.exe",
-      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.0.1/T500_Firmware_Flasher_Windows_x64.exe"
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.1.0/T500_Firmware_Flasher_Windows_x64.exe"
     },
     "linux_x86_64": {
       "asset": "T500_Firmware_Flasher_Linux_x86_64",
-      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.0.1/T500_Firmware_Flasher_Linux_x86_64"
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.1.0/T500_Firmware_Flasher_Linux_x86_64"
     }
   },
   "firmware": {
