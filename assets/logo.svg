@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E88E5"/>
+      <stop offset="55%" stop-color="#00ACC1"/>
+      <stop offset="100%" stop-color="#43A047"/>
+    </linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-opacity=".28"/></filter>
+  </defs>
+  <rect x="92" y="92" width="840" height="840" rx="210" fill="#101820" filter="url(#s)"/>
+  <rect x="210" y="210" width="604" height="604" rx="128" fill="none" stroke="url(#g)" stroke-width="34"/>
+  <g stroke="url(#g)" stroke-width="28" stroke-linecap="round">
+    <path d="M256 144v96M384 144v96M512 144v96M640 144v96M768 144v96"/>
+    <path d="M256 784v96M384 784v96M512 784v96M640 784v96M768 784v96"/>
+    <path d="M144 256h96M144 384h96M144 512h96M144 640h96M144 768h96"/>
+    <path d="M784 256h96M784 384h96M784 512h96M784 640h96M784 768h96"/>
+  </g>
+  <path d="M570 278 360 560h138l-52 186 218-310H526z" fill="url(#g)"/>
+  <text x="512" y="850" text-anchor="middle" font-family="Arial, sans-serif" font-size="82" font-weight="700" fill="#E8F1F8">T500</text>
+</svg>

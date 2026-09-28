@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "channel": "stable",
+  "gui": {
+    "version": "1.0.0",
+    "release_tag": "gui-v1.0.0",
+    "windows": {
+      "asset": "T500_Firmware_Flasher_Windows_x64.exe",
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.0.0/T500_Firmware_Flasher_Windows_x64.exe"
+    },
+    "linux_x86_64": {
+      "asset": "T500_Firmware_Flasher_Linux_x86_64",
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.0.0/T500_Firmware_Flasher_Linux_x86_64"
+    }
+  },
+  "firmware": {
+    "ESP32": {
+      "display_name": "ESP32 Classic Production",
+      "version": "1.0.0",
+      "release_tag": "fw-classic-v1.0.0",
+      "flash_size": "4MB",
+      "flash_mode": "dio",
+      "flash_freq": "40m",
+      "segments": [
+        {"offset": "0x1000", "asset": "bootloader.bin", "sha256": "22efa8acc2519fc9c1a396f2d7fff5428429d607153a99437394da6e985fcedc"},
+        {"offset": "0x8000", "asset": "partition-table.bin", "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"},
+        {"offset": "0x10000", "asset": "espnow_example.bin", "sha256": "e5672bda8cdfe11248158dc4ecd514d5f50c5a063232e5b6d5608cfbb13e982f"}
+      ]
+    },
+    "ESP32-S3": {
+      "display_name": "ESP32-S3 Legacy-Compatible",
+      "version": "1.0.0",
+      "release_tag": "fw-s3-v1.0.0",
+      "flash_size": "2MB",
+      "flash_mode": "dio",
+      "flash_freq": "40m",
+      "segments": [
+        {"offset": "0x0", "asset": "bootloader.bin", "sha256": "da59eaa121b25bb1fe204359f778cfb96da44b2a47bdadb23d02df0a9a3651e5"},
+        {"offset": "0x8000", "asset": "partition-table.bin", "sha256": "7f00b6c042a89b15b0cac534f82ed988caf29278ff5700b0c511eb1b5bb7c820"},
+        {"offset": "0x10000", "asset": "t500_s3_legacy.bin", "sha256": "b867a28785a70a58bdb1d1d2e3cb029ee0e0907786854ab3bbb83588c9894fb5"}
+      ]
+    }
+  }
+}
