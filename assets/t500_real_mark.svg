@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420">
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <!-- restrained T500 silhouette: low chassis, sloped yellow deck, tall rear mast -->
+    <path d="M110 265 L155 205 L455 190 L565 235 L540 315 L170 330 L95 300 Z" fill="#C9CED4" stroke="#27313B" stroke-width="10"/>
+    <path d="M150 210 L435 193 L520 227 L455 260 L145 275 L108 252 Z" fill="#F4C300" stroke="#27313B" stroke-width="9"/>
+    <path d="M160 278 L455 261 L540 238 L535 307 L175 323 L100 295 L100 262 Z" fill="#424B55" stroke="#27313B" stroke-width="9"/>
+    <rect x="405" y="80" width="58" height="120" rx="8" fill="#B7BDC4" stroke="#27313B" stroke-width="9"/>
+    <path d="M385 105 Q360 105 360 130 V190" stroke="#7A838D" stroke-width="13"/>
+    <path d="M482 105 Q507 105 507 130 V205" stroke="#7A838D" stroke-width="13"/>
+    <rect x="394" y="52" width="80" height="35" rx="8" fill="#D9DEE3" stroke="#27313B" stroke-width="8"/>
+    <rect x="429" y="22" width="15" height="15" fill="#E64B3C" stroke="#27313B" stroke-width="3"/>
+    <rect x="429" y="37" width="15" height="15" fill="#F0B323" stroke="#27313B" stroke-width="3"/>
+    <rect x="429" y="52" width="15" height="15" fill="#44B45A" stroke="#27313B" stroke-width="3"/>
+    <circle cx="188" cy="326" r="20" fill="#20262C" stroke="#111" stroke-width="6"/>
+    <circle cx="480" cy="314" r="20" fill="#20262C" stroke="#111" stroke-width="6"/>
+    <path d="M116 235 L143 243 M130 219 L157 227 M504 229 L527 240 M493 246 L520 257" stroke="#27313B" stroke-width="8"/>
+  </g>
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <text x="95" y="385" font-size="54" font-weight="700" fill="#1F2D3A">T500</text>
+    <text x="250" y="385" font-size="30" font-weight="600" fill="#147D92">ESP32 FLASHER</text>
+  </g>
+</svg>
