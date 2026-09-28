@@ -112,10 +112,10 @@ class MainWindow(QMainWindow):
         top.addLayout(row)
 
         metrics = QHBoxLayout()
-        self.chip_value = self.metric(metrics, "CHIP", "Chưa nhận diện")
-        self.mac_value = self.metric(metrics, "MAC", "-")
-        self.fw_local_value = self.metric(metrics, "FW LOCAL", "-")
-        self.fw_latest_value = self.metric(metrics, "FW MỚI NHẤT", "-")
+        self.chip_value = self.add_metric(metrics, "CHIP", "Chưa nhận diện")
+        self.mac_value = self.add_metric(metrics, "MAC", "-")
+        self.fw_local_value = self.add_metric(metrics, "FW LOCAL", "-")
+        self.fw_latest_value = self.add_metric(metrics, "FW MỚI NHẤT", "-")
         top.addLayout(metrics)
         layout.addWidget(top_card)
 
@@ -167,7 +167,7 @@ class MainWindow(QMainWindow):
         self.append_log(f"T500 Firmware Flasher v{APP_VERSION} started.")
         self.check_updates(silent=True)
 
-    def metric(self, parent, name, initial):
+    def add_metric(self, parent, name, initial):
         box = QVBoxLayout()
         k = QLabel(name); k.setObjectName("metric")
         v = QLabel(initial); v.setObjectName("value")
