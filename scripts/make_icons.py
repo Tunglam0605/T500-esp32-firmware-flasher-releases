@@ -1,94 +1,73 @@
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 A = ROOT / "assets"
 A.mkdir(exist_ok=True)
 
-S=1024
-im=Image.new("RGBA",(S,S),(6,17,32,255))
-# subtle radial-ish layers
-bg=Image.new("RGBA",(S,S),(0,0,0,0)); bd=ImageDraw.Draw(bg)
-for r,a in [(470,26),(390,24),(310,20)]:
-    bd.ellipse((512-r,420-r,512+r,420+r), fill=(0,160,220,a))
-bg=bg.filter(ImageFilter.GaussianBlur(80))
-im=Image.alpha_composite(im,bg)
-d=ImageDraw.Draw(im)
+S = 1024
+im = Image.new("RGBA", (S, S), (248, 250, 252, 255))
+d = ImageDraw.Draw(im)
 
-cyan=(21,204,235,255); blue=(32,125,255,255); green=(55,235,155,255)
-yellow=(255,205,20,255); silver=(210,220,230,255); dark=(15,28,44,255)
+ink = (38, 47, 56, 255)
+mid = (184, 191, 199, 255)
+body = (204, 210, 216, 255)
+yellow = (244, 195, 0, 255)
+cyan = (20, 125, 146, 255)
+dark = (58, 68, 78, 255)
 
-# outer tech ring
-d.arc((90,70,934,914), 205, 352, fill=blue, width=24)
-d.arc((90,70,934,914), 8, 148, fill=cyan, width=24)
-d.arc((105,85,919,899), 20, 70, fill=green, width=18)
+# soft badge ring
+d.rounded_rectangle((56, 56, 968, 968), 180, fill=(255,255,255,255), outline=(221,226,232,255), width=16)
 
-# ESP32 chip
-chip=(155,190,455,490)
-d.rounded_rectangle(chip,40,fill=(10,34,55,255),outline=cyan,width=18)
-for x in range(185,440,55):
-    d.rectangle((x,160,x+18,192),fill=cyan)
-    d.rectangle((x,488,x+18,520),fill=cyan)
-for y in range(220,470,55):
-    d.rectangle((125,y,158,y+18),fill=cyan)
-    d.rectangle((453,y,486,y+18),fill=cyan)
-# wifi arcs
-for box in [(220,245,390,415),(250,275,360,385),(282,307,328,353)]:
-    d.arc(box,205,335,fill=(235,248,255,255),width=18)
-
-# T500 simplified AGV body
-# body shadow
-d.rounded_rectangle((305,415,785,705),45,fill=(0,0,0,80))
+# Real-T500-inspired restrained silhouette: low chassis, sloped yellow deck, rear mast.
 # chassis
-d.polygon([(290,430),(660,390),(810,470),(770,690),(345,735),(255,625)],fill=(150,160,170,255))
-# top yellow deck
-d.polygon([(300,415),(640,382),(760,445),(690,535),(330,570),(250,515)],fill=yellow)
-# front bumper
-d.polygon([(250,515),(330,570),(330,650),(245,610)],fill=(18,28,40,255))
-d.polygon([(330,570),(690,535),(690,625),(330,650)],fill=(35,45,56,255))
-# mast
-d.rounded_rectangle((575,205,665,440),18,fill=(170,180,190,255),outline=(235,240,245,255),width=5)
-d.rounded_rectangle((548,180,692,245),18,fill=(190,200,210,255),outline=(240,245,250,255),width=5)
-# side rails
-d.rounded_rectangle((520,250,585,405),28,outline=(175,190,200,255),width=18)
-d.rounded_rectangle((655,250,720,405),28,outline=(175,190,200,255),width=18)
+d.polygon([(180,550),(245,455),(650,435),(790,500),(760,645),(270,670),(160,615)], fill=body)
+d.line([(180,550),(245,455),(650,435),(790,500),(760,645),(270,670),(160,615),(180,550)], fill=ink, width=18, joint="curve")
+
+# yellow sloped upper deck
+d.polygon([(240,462),(620,442),(728,486),(646,540),(235,566),(170,530)], fill=yellow)
+d.line([(240,462),(620,442),(728,486),(646,540),(235,566),(170,530)], fill=ink, width=14, joint="curve")
+
+# dark lower side
+d.polygon([(235,568),(646,542),(759,504),(754,628),(272,653),(168,610),(168,536)], fill=dark)
+d.line([(235,568),(646,542),(759,504)], fill=ink, width=12)
+
+# rear mast
+d.rounded_rectangle((566,250,654,447), radius=16, fill=mid, outline=ink, width=14)
+d.rounded_rectangle((535,216,690,272), radius=16, fill=(218,223,228,255), outline=ink, width=12)
+
+# side safety rails
+d.arc((490,288,592,462), start=100, end=260, fill=(126,137,148,255), width=18)
+d.arc((645,286,748,465), start=-80, end=80, fill=(126,137,148,255), width=18)
+
 # stack light
-for i,c in enumerate([(235,70,70,255),(250,200,30,255),(55,205,95,255)]):
-    d.rectangle((608,126+i*25,632,150+i*25),fill=c)
-d.rounded_rectangle((605,116,635,205),12,outline=silver,width=4)
-# buttons
-for cy,c in [(273,(40,210,90,255)),(306,(225,55,55,255)),(344,(255,150,25,255))]:
-    d.ellipse((611,cy,628,cy+17),fill=c)
-# hazard side
-for x in (278,728):
-    d.rectangle((x,455,x+46,560),fill=yellow)
-    for yy in (455,500):
-        d.polygon([(x,yy),(x+18,yy),(x+46,yy+32),(x+46,yy+50)],fill=(25,25,25,255))
+for y,c in [(168,(220,64,52,255)),(191,(238,173,27,255)),(214,(55,170,83,255))]:
+    d.rectangle((603,y,623,y+20), fill=c)
+d.rounded_rectangle((596,160,630,240), radius=8, outline=ink, width=5)
 
-# lightning bolt
-d.polygon([(780,205),(690,365),(755,365),(705,495),(870,285),(790,285)],fill=green)
+# wheels
+for cx,cy in [(286,654),(666,635)]:
+    d.ellipse((cx-28,cy-28,cx+28,cy+28), fill=(30,35,40,255), outline=ink, width=5)
 
-# upload icon
-d.arc((745,410,895,560),35,320,fill=cyan,width=16)
-d.polygon([(820,438),(780,488),(806,488),(806,526),(834,526),(834,488),(860,488)],fill=cyan)
+# small controller-chip motif, not fantasy vehicle geometry
+d.rounded_rectangle((160,730,350,855), radius=22, fill=(238,243,247,255), outline=cyan, width=12)
+for x in range(182,334,38):
+    d.rectangle((x,712,x+12,733), fill=cyan)
+    d.rectangle((x,852,x+12,873), fill=cyan)
+for y in range(750,838,32):
+    d.rectangle((140,y,162,y+12), fill=cyan)
+    d.rectangle((348,y,370,y+12), fill=cyan)
+d.arc((205,760,315,840), start=200, end=340, fill=cyan, width=12)
+d.arc((225,780,295,830), start=200, end=340, fill=cyan, width=10)
 
-# text
-try:
-    f_big=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf",150)
-    f_mid=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",66)
-except Exception:
-    f_big=f_mid=ImageFont.load_default()
-# T500
-text="T500"; box=d.textbbox((0,0),text,font=f_big); tw=box[2]-box[0]
-d.text(((S-tw)//2,700),text,font=f_big,fill=(238,244,250,255),stroke_width=2,stroke_fill=(70,90,110,255))
-# subtitle
-sub="ESP32 FLASHER"; box=d.textbbox((0,0),sub,font=f_mid); sw=box[2]-box[0]
-d.text(((S-sw)//2,855),sub,font=f_mid,fill=cyan)
+# simple flash arrow
+d.line((430,790,690,790), fill=cyan, width=20)
+d.polygon([(690,790),(635,752),(635,828)], fill=cyan)
 
-# small yellow accent
-d.rounded_rectangle((452,946,572,958),6,fill=yellow)
+# T500 bar
+d.rounded_rectangle((170,900,854,928), radius=14, fill=yellow)
 
-im.save(A/"logo.png",optimize=True)
-im.resize((512,512),Image.Resampling.LANCZOS).save(A/"logo_512.png",optimize=True)
-im.resize((256,256),Image.Resampling.LANCZOS).save(A/"logo.ico",sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
-print("generated",A/"logo.png")
+im.save(A / "logo.png", optimize=True)
+im.resize((512,512), Image.Resampling.LANCZOS).save(A / "logo_512.png", optimize=True)
+im.resize((256,256), Image.Resampling.LANCZOS).save(A / "logo.ico", sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+print("generated accurate T500 branding assets")
