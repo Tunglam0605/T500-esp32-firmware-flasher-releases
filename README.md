@@ -4,6 +4,20 @@
 
 Cross-platform firmware flasher and updater for the AUBOT T500 main controller.
 
+## Current stable release
+
+- GUI: **v1.5.0**
+- ESP32 Classic firmware: **v1.0.0**
+- ESP32-S3 firmware: **v1.0.0**
+- Windows GUI SHA256: `1c70700d4c7e3eb2a25b5d19fcc596049193623cb0f8e174d4210cfd79962349`
+- Linux GUI SHA256: `aca9a591b79038e2717413ec4865f34e05bdc937d4d0851fed07550a1c9ab43e`
+
+Validated release paths:
+- GUI update `v1.4.3 -> v1.5.0`: PASS
+- Firmware sync/update simulation `v0.9.0 -> v1.0.0`: PASS for ESP32 and ESP32-S3
+- Packaged executable self-test: PASS
+- Release validation: PASS
+
 ## Supported targets
 
 | Target | Firmware channel | Flash layout |
@@ -20,8 +34,9 @@ Classic ESP32 firmware remains the immutable production baseline. ESP32-S3 firmw
 3. Open T500 Firmware Flasher.
 4. Scan serial ports and detect the chip.
 5. Confirm chip, MAC and selected firmware.
-6. Press NAP FIRMWARE.
-7. Accept the operation only when FLASH PASS is reported.
+6. Press **BẮT ĐẦU FLASH**.
+7. Confirm the flash operation.
+8. Accept the operation only when **FLASH PASS** is reported.
 
 No ESP-IDF, Python or standalone esptool installation is required on the operator PC.
 
