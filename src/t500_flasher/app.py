@@ -18,163 +18,176 @@ from . import core
 
 QSS = """
 QWidget {
-    background: #081624;
-    color: #EAF2F8;
+    background: #EEF5FB;
+    color: #15324A;
     font-family: "Segoe UI", "Ubuntu", sans-serif;
     font-size: 13px;
 }
-QMainWindow { background: #081624; }
+QMainWindow {
+    background: #EEF5FB;
+}
 
 QFrame#hero {
-    background: #0B1B2C;
-    border: 1px solid #193653;
-    border-radius: 18px;
+    background: #E5F3FF;
+    border: 1px solid #C7DEEE;
+    border-radius: 16px;
 }
 QFrame#card {
-    background: #0F2135;
-    border: 1px solid #1B3A59;
+    background: #FFFFFF;
+    border: 1px solid #D6E4EF;
     border-radius: 14px;
 }
 QFrame#metricCard {
-    background: #0B1B2C;
-    border: 1px solid #18344F;
-    border-radius: 11px;
+    background: #F7FBFE;
+    border: 1px solid #DDEAF3;
+    border-radius: 10px;
 }
 QFrame#flashCard {
-    background: #12253A;
-    border: 1px solid #5E531C;
+    background: #FFFFFF;
+    border: 1px solid #D7E4EF;
     border-radius: 14px;
 }
 
 QLabel#eyebrow {
-    color: #75D8F0;
+    color: #59748B;
     font-size: 11px;
     font-weight: 700;
 }
-QLabel#title {
-    color: #FFFFFF;
-    font-size: 27px;
+QLabel#heroTitle {
+    color: #123858;
+    font-size: 21px;
     font-weight: 800;
 }
-QLabel#subtitle {
-    color: #9EB3C7;
-    font-size: 13px;
+QLabel#heroSubtitle {
+    color: #688197;
+    font-size: 12px;
 }
 QLabel#sectionTitle {
-    color: #F4F8FB;
+    color: #143B5D;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
 }
 QLabel#sectionHint {
-    color: #91A7BC;
+    color: #6F879B;
     font-size: 12px;
 }
 QLabel#metric {
-    color: #7894AE;
+    color: #748EA4;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
 }
 QLabel#value {
-    color: #F2F7FB;
+    color: #163955;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 800;
 }
 QLabel#statusBadge {
-    background: #0C3441;
-    color: #55D9F0;
-    border: 1px solid #1E6172;
-    border-radius: 10px;
-    padding: 5px 10px;
-    font-weight: 700;
+    background: #E8F8EF;
+    color: #149348;
+    border: 1px solid #BEE9CF;
+    border-radius: 11px;
+    padding: 6px 12px;
+    font-weight: 800;
 }
 QLabel#versionBadge {
-    background: #332E0D;
-    color: #FFD84B;
-    border: 1px solid #6B5A16;
-    border-radius: 10px;
-    padding: 5px 10px;
-    font-weight: 700;
+    background: #E6F3FE;
+    color: #176AA5;
+    border: 1px solid #C2DFF4;
+    border-radius: 11px;
+    padding: 6px 12px;
+    font-weight: 800;
 }
 
 QComboBox {
-    background: #0A1A2A;
-    color: #EAF2F8;
-    border: 1px solid #2B4B69;
+    background: #FFFFFF;
+    color: #15324A;
+    border: 1px solid #C8DBE9;
     border-radius: 9px;
-    padding: 9px 10px;
-    min-height: 20px;
-    selection-background-color: #165469;
+    padding: 8px 10px;
+    min-height: 22px;
+    selection-background-color: #DFF0FC;
 }
-QComboBox:hover { border-color: #4A789F; }
-QComboBox:focus { border: 1px solid #27B7D2; }
+QComboBox:hover { border-color: #7EB4DA; }
+QComboBox:focus { border: 1px solid #1683C7; }
 QComboBox QAbstractItemView {
-    background: #102338;
-    border: 1px solid #2B4B69;
-    selection-background-color: #174F63;
-    selection-color: #FFFFFF;
+    background: #FFFFFF;
+    border: 1px solid #C8DBE9;
+    selection-background-color: #DFF0FC;
+    selection-color: #15324A;
 }
 
 QPushButton {
-    background: #10263A;
-    color: #EAF2F8;
-    border: 1px solid #2A4A68;
+    background: #FFFFFF;
+    color: #1E4D71;
+    border: 1px solid #C7DBEA;
     border-radius: 9px;
     padding: 9px 14px;
-    font-weight: 650;
+    font-weight: 750;
 }
 QPushButton:hover {
-    background: #18344E;
-    border-color: #4A789F;
+    background: #F4FAFE;
+    border-color: #7FB6DB;
 }
-QPushButton:pressed { background: #0C1D2E; }
+QPushButton:pressed {
+    background: #E7F3FB;
+}
 QPushButton:disabled {
-    background: #0A1723;
-    color: #687D90;
-    border-color: #1B2C3D;
+    background: #F2F6F9;
+    color: #9AABBA;
+    border-color: #DFE8EE;
 }
 QPushButton#primary {
-    background: #168AA5;
+    background: #1788D4;
     color: #FFFFFF;
-    border: 1px solid #168AA5;
+    border: 1px solid #1788D4;
 }
 QPushButton#primary:hover {
-    background: #12788F;
-    border-color: #12788F;
+    background: #0F77BE;
+    border-color: #0F77BE;
 }
 QPushButton#secondary {
-    background: #123143;
-    color: #72E4F8;
-    border: 1px solid #24566D;
+    background: #EFF7FD;
+    color: #176CA8;
+    border: 1px solid #BCD9ED;
 }
 QPushButton#secondary:hover {
-    background: #183E52;
-    border-color: #32748E;
+    background: #E2F1FB;
+    border-color: #8FC3E4;
 }
 QPushButton#flash {
-    background: #F2C400;
-    color: #231F0C;
-    border: 1px solid #D5AC00;
-    border-radius: 11px;
+    background: #1288D8;
+    color: #FFFFFF;
+    border: 1px solid #1288D8;
+    border-radius: 10px;
     padding: 12px 18px;
     font-size: 14px;
-    font-weight: 800;
+    font-weight: 850;
 }
 QPushButton#flash:hover {
-    background: #E4B900;
-    border-color: #C69F00;
+    background: #0876C3;
+    border-color: #0876C3;
+}
+QPushButton#verify {
+    background: #1EB466;
+    color: #FFFFFF;
+    border: 1px solid #1EB466;
+}
+QPushButton#verify:hover {
+    background: #179956;
+    border-color: #179956;
 }
 
 QPlainTextEdit {
-    background: #07131F;
-    color: #CFE0EF;
-    border: 1px solid #1B3A59;
-    border-radius: 11px;
+    background: #FBFDFE;
+    color: #24455F;
+    border: 1px solid #D5E3ED;
+    border-radius: 10px;
     padding: 9px;
-    font-family: "JetBrains Mono", "Consolas", "Monospace";
+    font-family: "Consolas", "JetBrains Mono", monospace;
     font-size: 12px;
 }
 QProgressBar {
-    background: #102338;
+    background: #E7EFF5;
     border: 0;
     border-radius: 5px;
     min-height: 10px;
@@ -182,7 +195,7 @@ QProgressBar {
     text-align: center;
 }
 QProgressBar::chunk {
-    background: #21CBE8;
+    background: #1688D4;
     border-radius: 5px;
 }
 """
@@ -218,98 +231,95 @@ class MainWindow(QMainWindow):
         self.detected_mac = "-"
 
         self.setWindowTitle(f"T500 ESP32 Flasher v{APP_VERSION}")
-        self.setMinimumSize(1080, 800)
-        self.resize(1180, 880)
+        self.setMinimumSize(1120, 820)
+        self.resize(1240, 900)
         self.setStyleSheet(QSS)
 
-        hero_path = core.bundle_root() / "assets/t500_hero.png"
-        icon_path = hero_path if hero_path.exists() else core.bundle_root() / "assets/logo.png"
-        if icon_path.exists():
-            self.setWindowIcon(QIcon(str(icon_path)))
+        app_icon = core.bundle_root() / "assets/logo_app.png"
+        if not app_icon.exists():
+            app_icon = core.bundle_root() / "assets/logo.png"
+        if app_icon.exists():
+            self.setWindowIcon(QIcon(str(app_icon)))
 
         root = QWidget()
         self.setCentralWidget(root)
         layout = QVBoxLayout(root)
-        layout.setContentsMargins(22, 20, 22, 20)
-        layout.setSpacing(13)
+        layout.setContentsMargins(16, 14, 16, 14)
+        layout.setSpacing(12)
 
+        # Hero banner inspired by the clean B300 tester layout.
         hero = QFrame()
         hero.setObjectName("hero")
         header = QHBoxLayout(hero)
-        header.setContentsMargins(18, 14, 18, 14)
-        header.setSpacing(20)
+        header.setContentsMargins(14, 10, 14, 10)
+        header.setSpacing(18)
 
+        hero_path = core.bundle_root() / "assets/t500_hero.png"
         if hero_path.exists():
-            artwork = QLabel()
+            art = QLabel()
             pm = QPixmap(str(hero_path))
-            artwork.setPixmap(pm.scaled(470, 170, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-            artwork.setFixedSize(480, 175)
-            artwork.setAlignment(Qt.AlignCenter)
-            artwork.setStyleSheet("background: transparent; border: 0;")
-            header.addWidget(artwork, 0, Qt.AlignVCenter)
+            art.setPixmap(pm.scaled(505, 168, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            art.setFixedSize(515, 170)
+            art.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            art.setStyleSheet("background: transparent; border: 0;")
+            header.addWidget(art, 0, Qt.AlignVCenter)
 
-        info = QVBoxLayout()
-        info.setSpacing(4)
-        eyebrow = QLabel("AUBOT T500  /  MAIN CONTROLLER SERVICE")
+        hero_text = QVBoxLayout()
+        hero_text.setSpacing(3)
+        eyebrow = QLabel("T500 MAIN CONTROLLER SERVICE")
         eyebrow.setObjectName("eyebrow")
-        title = QLabel("Firmware Service Console")
-        title.setObjectName("title")
-        subtitle = QLabel("ESP32 Classic & ESP32-S3 • Auto detect • Verified firmware • Safe flash")
-        subtitle.setObjectName("subtitle")
-        info.addWidget(eyebrow)
-        info.addWidget(title)
-        info.addWidget(subtitle)
-        info.addStretch(1)
-        header.addLayout(info, 1)
+        title = QLabel("ESP32 Firmware Flasher")
+        title.setObjectName("heroTitle")
+        subtitle = QLabel("Detect · Firmware Sync · Flash · Verify")
+        subtitle.setObjectName("heroSubtitle")
+        hero_text.addWidget(eyebrow)
+        hero_text.addWidget(title)
+        hero_text.addWidget(subtitle)
+        hero_text.addStretch(1)
+        header.addLayout(hero_text, 1)
 
-        badges = QVBoxLayout()
-        badges.setSpacing(7)
+        badges = QHBoxLayout()
+        badges.setSpacing(8)
         self.gui_badge = QLabel(f"GUI v{APP_VERSION}")
         self.gui_badge.setObjectName("versionBadge")
-        stable = QLabel("STABLE")
-        stable.setObjectName("statusBadge")
-        badges.addWidget(self.gui_badge, 0, Qt.AlignRight)
-        badges.addWidget(stable, 0, Qt.AlignRight)
-        badges.addStretch(1)
+        self.state_label = QLabel("READY")
+        self.state_label.setObjectName("statusBadge")
+        badges.addWidget(self.gui_badge)
+        badges.addWidget(self.state_label)
         header.addLayout(badges)
         layout.addWidget(hero)
 
+        # Device / connection section
         device_card = QFrame()
         device_card.setObjectName("card")
         device = QVBoxLayout(device_card)
-        device.setContentsMargins(16, 14, 16, 16)
-        device.setSpacing(12)
+        device.setContentsMargins(16, 13, 16, 15)
+        device.setSpacing(10)
 
-        title_row = QHBoxLayout()
-        section_title = QLabel("Kết nối & nhận diện bộ điều khiển")
-        section_title.setObjectName("sectionTitle")
-        title_row.addWidget(section_title)
-        title_row.addStretch(1)
-        self.state_label = QLabel("SẴN SÀNG")
-        self.state_label.setObjectName("statusBadge")
-        title_row.addWidget(self.state_label)
-        device.addLayout(title_row)
+        row_title = QHBoxLayout()
+        st = QLabel("🔌  KẾT NỐI & NHẬN DIỆN MAIN")
+        st.setObjectName("sectionTitle")
+        row_title.addWidget(st)
+        row_title.addStretch(1)
+        device.addLayout(row_title)
 
-        hint = QLabel("Cắm USB/serial, chọn cổng rồi để phần mềm tự nhận diện đúng ESP32 Classic hoặc ESP32-S3.")
-        hint.setObjectName("sectionHint")
-        device.addWidget(hint)
+        conn = QHBoxLayout()
+        conn.setSpacing(8)
 
-        connect_row = QHBoxLayout()
-        connect_row.setSpacing(8)
-        port_label = QLabel("Cổng serial")
-        port_label.setObjectName("eyebrow")
-        connect_row.addWidget(port_label)
+        port_lbl = QLabel("Serial Port")
+        port_lbl.setObjectName("eyebrow")
+        conn.addWidget(port_lbl)
 
         self.port = QComboBox()
         self.port.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        connect_row.addWidget(self.port, 1)
+        conn.addWidget(self.port, 1)
 
-        self.scan_btn = QPushButton("Quét lại")
-        self.detect_btn = QPushButton("Nhận diện chip")
+        self.scan_btn = QPushButton("QUÉT LẠI")
+        self.detect_btn = QPushButton("NHẬN DIỆN CHIP")
         self.detect_btn.setObjectName("primary")
-        connect_row.addWidget(self.scan_btn)
-        connect_row.addWidget(self.detect_btn)
-        device.addLayout(connect_row)
+        conn.addWidget(self.scan_btn)
+        conn.addWidget(self.detect_btn)
+        device.addLayout(conn)
 
         metrics = QGridLayout()
         metrics.setHorizontalSpacing(10)
@@ -317,20 +327,21 @@ class MainWindow(QMainWindow):
         self.chip_value = self.add_metric(metrics, 0, 0, "CHIP", "Chưa nhận diện")
         self.mac_value = self.add_metric(metrics, 0, 1, "MAC", "-")
         self.fw_local_value = self.add_metric(metrics, 0, 2, "FIRMWARE LOCAL", "-")
-        self.fw_latest_value = self.add_metric(metrics, 0, 3, "FIRMWARE MỚI NHẤT", "-")
+        self.fw_latest_value = self.add_metric(metrics, 0, 3, "FIRMWARE LATEST", "-")
         device.addLayout(metrics)
         layout.addWidget(device_card)
 
+        # Firmware update section
         update_card = QFrame()
         update_card.setObjectName("card")
         update = QVBoxLayout(update_card)
-        update.setContentsMargins(16, 14, 16, 15)
+        update.setContentsMargins(16, 13, 16, 15)
         update.setSpacing(10)
 
         update_header = QHBoxLayout()
-        update_title = QLabel("Cập nhật")
-        update_title.setObjectName("sectionTitle")
-        update_header.addWidget(update_title)
+        ut = QLabel("☁  FIRMWARE & UPDATE")
+        ut.setObjectName("sectionTitle")
+        update_header.addWidget(ut)
         update_header.addStretch(1)
         self.update_status = QLabel("Stable • chưa kiểm tra cập nhật")
         self.update_status.setObjectName("sectionHint")
@@ -339,10 +350,10 @@ class MainWindow(QMainWindow):
 
         update_buttons = QHBoxLayout()
         update_buttons.setSpacing(8)
-        self.check_btn = QPushButton("Kiểm tra cập nhật")
-        self.sync_btn = QPushButton("Đồng bộ firmware")
+        self.check_btn = QPushButton("KIỂM TRA CẬP NHẬT")
+        self.sync_btn = QPushButton("ĐỒNG BỘ FIRMWARE")
         self.sync_btn.setObjectName("secondary")
-        self.gui_update_btn = QPushButton("Cập nhật ứng dụng")
+        self.gui_update_btn = QPushButton("CẬP NHẬT ỨNG DỤNG")
         self.gui_update_btn.setObjectName("secondary")
         self.sync_btn.setEnabled(False)
         self.gui_update_btn.setEnabled(False)
@@ -353,29 +364,30 @@ class MainWindow(QMainWindow):
         update.addLayout(update_buttons)
         layout.addWidget(update_card)
 
+        # Flash action section
         flash_card = QFrame()
         flash_card.setObjectName("flashCard")
         flash_layout = QVBoxLayout(flash_card)
-        flash_layout.setContentsMargins(16, 14, 16, 15)
+        flash_layout.setContentsMargins(16, 13, 16, 15)
         flash_layout.setSpacing(10)
 
-        flash_header = QHBoxLayout()
-        flash_text = QVBoxLayout()
-        flash_title = QLabel("Nạp firmware")
+        fh = QHBoxLayout()
+        ft = QVBoxLayout()
+        flash_title = QLabel("⚡  NẠP & VERIFY FIRMWARE")
         flash_title.setObjectName("sectionTitle")
-        flash_hint = QLabel("Chỉ nạp firmware tương ứng chip đã nhận diện. Không full-chip erase mặc định.")
+        flash_hint = QLabel("Firmware được chọn tự động theo chip đã nhận diện. Không full-chip erase mặc định.")
         flash_hint.setObjectName("sectionHint")
-        flash_text.addWidget(flash_title)
-        flash_text.addWidget(flash_hint)
-        flash_header.addLayout(flash_text, 1)
+        ft.addWidget(flash_title)
+        ft.addWidget(flash_hint)
+        fh.addLayout(ft, 1)
 
-        self.flash_btn = QPushButton("NẠP & VERIFY FIRMWARE")
+        self.flash_btn = QPushButton("▶  BẮT ĐẦU FLASH")
         self.flash_btn.setObjectName("flash")
-        self.flash_btn.setMinimumWidth(250)
-        self.flash_btn.setMinimumHeight(45)
+        self.flash_btn.setMinimumWidth(240)
+        self.flash_btn.setMinimumHeight(44)
         self.flash_btn.setEnabled(False)
-        flash_header.addWidget(self.flash_btn, 0, Qt.AlignVCenter)
-        flash_layout.addLayout(flash_header)
+        fh.addWidget(self.flash_btn, 0, Qt.AlignVCenter)
+        flash_layout.addLayout(fh)
 
         self.progress = QProgressBar()
         self.progress.setTextVisible(False)
@@ -384,19 +396,20 @@ class MainWindow(QMainWindow):
         flash_layout.addWidget(self.progress)
         layout.addWidget(flash_card)
 
+        # Technical log
         log_card = QFrame()
         log_card.setObjectName("card")
         log_layout = QVBoxLayout(log_card)
-        log_layout.setContentsMargins(16, 13, 16, 16)
+        log_layout.setContentsMargins(16, 12, 16, 14)
         log_layout.setSpacing(8)
 
-        log_title = QLabel("Nhật ký kỹ thuật")
-        log_title.setObjectName("sectionTitle")
-        log_layout.addWidget(log_title)
+        lt = QLabel("▤  EVENT / TECHNICAL LOG")
+        lt.setObjectName("sectionTitle")
+        log_layout.addWidget(lt)
 
         self.log = QPlainTextEdit()
         self.log.setReadOnly(True)
-        self.log.setPlaceholderText("Thông tin nhận diện, tải firmware và esptool sẽ xuất hiện ở đây…")
+        self.log.setPlaceholderText("Detect / sync / flash / verify log sẽ hiển thị tại đây…")
         log_layout.addWidget(self.log, 1)
         layout.addWidget(log_card, 1)
 
@@ -415,7 +428,7 @@ class MainWindow(QMainWindow):
         card = QFrame()
         card.setObjectName("metricCard")
         box = QVBoxLayout(card)
-        box.setContentsMargins(12, 9, 12, 10)
+        box.setContentsMargins(12, 8, 12, 9)
         box.setSpacing(2)
         k = QLabel(name)
         k.setObjectName("metric")
@@ -480,7 +493,7 @@ class MainWindow(QMainWindow):
 
     def silent_job_error(self, tb):
         self.append_log("Update check skipped: " + (tb.splitlines()[-1] if tb else "unknown error"))
-        self.set_busy(False, "SẴN SÀNG")
+        self.set_busy(False, "READY")
 
     def job_error(self, tb):
         self.append_log(tb)
@@ -502,7 +515,7 @@ class MainWindow(QMainWindow):
             sig.log.emit(out)
             return chip, mac
 
-        self.start_job(work, self.detect_done, "ĐANG NHẬN DIỆN")
+        self.start_job(work, self.detect_done, "DETECTING")
 
     def detect_done(self, result):
         chip, mac = result
@@ -543,12 +556,7 @@ class MainWindow(QMainWindow):
             if not silent:
                 self.append_log("Update manifest refreshed.")
 
-        self.start_job(
-            work,
-            done,
-            "ĐANG KIỂM TRA",
-            error_handler=self.silent_job_error if silent else None,
-        )
+        self.start_job(work, done, "CHECKING", error_handler=self.silent_job_error if silent else None)
 
     def sync_firmware(self):
         if not self.detected_chip:
@@ -567,7 +575,7 @@ class MainWindow(QMainWindow):
             self.append_log(f"Firmware synced: {path}")
             QMessageBox.information(self, "Firmware", "Firmware đã được tải và kiểm tra SHA256 thành công.")
 
-        self.start_job(work, done, "ĐANG TẢI FIRMWARE")
+        self.start_job(work, done, "SYNCING")
 
     def flash(self):
         if not self.detected_chip:
@@ -595,7 +603,7 @@ class MainWindow(QMainWindow):
             self.state_label.setText("FLASH PASS")
             QMessageBox.information(self, "T500 Firmware Flasher", "Nạp firmware + verify thành công.")
 
-        self.start_job(work, done, "ĐANG NẠP")
+        self.start_job(work, done, "FLASHING")
 
     def update_gui(self):
         if not core.gui_update_available(APP_VERSION, self.remote_manifest):
@@ -607,7 +615,7 @@ class MainWindow(QMainWindow):
 
         def work(sig):
             def progress(cur, total):
-                sig.progress.emit(cur, total, "ĐANG TẢI GUI")
+                sig.progress.emit(cur, total, "DOWNLOADING")
             return str(core.download_gui_update(self.remote_manifest, progress))
 
         def done(path):
@@ -622,7 +630,7 @@ class MainWindow(QMainWindow):
                 return
             QApplication.quit()
 
-        self.start_job(work, done, "ĐANG TẢI GUI")
+        self.start_job(work, done, "DOWNLOADING")
 
 
 def main():
