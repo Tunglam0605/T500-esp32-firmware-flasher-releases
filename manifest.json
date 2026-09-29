@@ -6,11 +6,13 @@
     "release_tag": "gui-v1.5.0",
     "windows": {
       "asset": "T500_Firmware_Flasher_Windows_x64.exe",
-      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.5.0/T500_Firmware_Flasher_Windows_x64.exe"
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.5.0/T500_Firmware_Flasher_Windows_x64.exe",
+      "sha256": "1c70700d4c7e3eb2a25b5d19fcc596049193623cb0f8e174d4210cfd79962349"
     },
     "linux_x86_64": {
       "asset": "T500_Firmware_Flasher_Linux_x86_64",
-      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.5.0/T500_Firmware_Flasher_Linux_x86_64"
+      "url": "https://github.com/Tunglam0605/T500-esp32-firmware-flasher-releases/releases/download/gui-v1.5.0/T500_Firmware_Flasher_Linux_x86_64",
+      "sha256": "aca9a591b79038e2717413ec4865f34e05bdc937d4d0851fed07550a1c9ab43e"
     }
   },
   "firmware": {
