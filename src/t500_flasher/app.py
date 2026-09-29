@@ -231,6 +231,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.pool = QThreadPool.globalInstance()
+        self._jobs = set()
         self.remote_manifest = core.read_bundled_manifest()
         self.detected_chip = None
         self.detected_mac = "-"
@@ -494,14 +495,30 @@ class MainWindow(QMainWindow):
     def start_job(self, fn, done, busy_text=None, error_handler=None, show_progress=False, background=False):
         if not background:
             self.set_busy(True, busy_text, show_progress=show_progress)
+
         job = Job(fn)
+        self._jobs.add(job)
+
         job.signals.log.connect(self.append_log)
         job.signals.progress.connect(self.on_progress)
-        job.signals.error.connect(error_handler or self.job_error)
-        job.signals.done.connect(
-            lambda result: self.background_job_done(result, done)
-            if background else self.job_done(result, done)
-        )
+
+        def finish_ok(result, _job=job):
+            try:
+                if background:
+                    self.background_job_done(result, done)
+                else:
+                    self.job_done(result, done)
+            finally:
+                self._jobs.discard(_job)
+
+        def finish_error(tb, _job=job):
+            try:
+                (error_handler or self.job_error)(tb)
+            finally:
+                self._jobs.discard(_job)
+
+        job.signals.error.connect(finish_error)
+        job.signals.done.connect(finish_ok)
         self.pool.start(job)
 
     @Slot(int, int, str)
@@ -533,14 +550,15 @@ class MainWindow(QMainWindow):
             return
 
         def work(sig):
-            chip, mac, out = core.detect_chip(port)
-            sig.log.emit(out)
-            return chip, mac
+            # Return chip/MAC/log as one atomic result so the visible metrics
+            # cannot lag behind a separately queued log signal.
+            return core.detect_chip(port)
 
         self.start_job(work, self.detect_done, "DETECTING")
 
     def detect_done(self, result):
-        chip, mac = result
+        chip, mac, out = result
+        self.append_log(out)
         if chip not in ("ESP32", "ESP32-S3"):
             self.detected_chip = None
             self.chip_value.setText("Không hỗ trợ")
