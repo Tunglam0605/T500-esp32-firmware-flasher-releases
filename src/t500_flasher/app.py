@@ -26,6 +26,9 @@ QWidget {
 QMainWindow {
     background: #EEF5FB;
 }
+QLabel {
+    background: transparent;
+}
 
 QFrame#hero {
     background: #E5F3FF;
@@ -82,19 +85,21 @@ QLabel#value {
     font-weight: 800;
 }
 QLabel#statusBadge {
-    background: #E8F8EF;
-    color: #149348;
-    border: 1px solid #BEE9CF;
-    border-radius: 11px;
-    padding: 6px 12px;
+    background: #E9F8F0;
+    color: #128845;
+    border: 1px solid #B9E7CC;
+    border-radius: 14px;
+    padding: 3px 10px;
+    font-size: 11px;
     font-weight: 800;
 }
 QLabel#versionBadge {
-    background: #E6F3FE;
-    color: #176AA5;
-    border: 1px solid #C2DFF4;
-    border-radius: 11px;
-    padding: 6px 12px;
+    background: #EAF4FC;
+    color: #17689F;
+    border: 1px solid #C4DFF0;
+    border-radius: 14px;
+    padding: 3px 10px;
+    font-size: 11px;
     font-weight: 800;
 }
 
@@ -279,13 +284,19 @@ class MainWindow(QMainWindow):
         header.addLayout(hero_text, 1)
 
         badges = QHBoxLayout()
-        badges.setSpacing(8)
-        self.gui_badge = QLabel(f"GUI v{APP_VERSION}")
+        badges.setSpacing(7)
+        self.gui_badge = QLabel(f"v{APP_VERSION}")
         self.gui_badge.setObjectName("versionBadge")
+        self.gui_badge.setAlignment(Qt.AlignCenter)
+        self.gui_badge.setFixedSize(72, 30)
+
         self.state_label = QLabel("READY")
         self.state_label.setObjectName("statusBadge")
-        badges.addWidget(self.gui_badge)
-        badges.addWidget(self.state_label)
+        self.state_label.setAlignment(Qt.AlignCenter)
+        self.state_label.setFixedSize(92, 30)
+
+        badges.addWidget(self.gui_badge, 0, Qt.AlignVCenter)
+        badges.addWidget(self.state_label, 0, Qt.AlignVCenter)
         header.addLayout(badges)
         layout.addWidget(hero)
 
@@ -393,6 +404,7 @@ class MainWindow(QMainWindow):
         self.progress.setTextVisible(False)
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
+        self.progress.hide()
         flash_layout.addWidget(self.progress)
         layout.addWidget(flash_card)
 
@@ -444,15 +456,19 @@ class MainWindow(QMainWindow):
         if s:
             self.log.appendPlainText(str(s).rstrip())
 
-    def set_busy(self, busy, text=None):
+    def set_busy(self, busy, text=None, show_progress=False):
         for b in (self.scan_btn, self.detect_btn, self.check_btn, self.sync_btn, self.gui_update_btn, self.flash_btn):
             b.setEnabled(not busy)
-        if busy:
+
+        if busy and show_progress:
+            self.progress.show()
             self.progress.setRange(0, 0)
-        else:
+        elif not busy:
             self.progress.setRange(0, 100)
             self.progress.setValue(0)
+            self.progress.hide()
             self._refresh_button_states()
+
         if text:
             self.state_label.setText(text)
 
@@ -475,13 +491,17 @@ class MainWindow(QMainWindow):
                 self.port.setCurrentIndex(idx)
         self.append_log(f"Serial ports: {self.port.count()}")
 
-    def start_job(self, fn, done, busy_text, error_handler=None):
-        self.set_busy(True, busy_text)
+    def start_job(self, fn, done, busy_text=None, error_handler=None, show_progress=False, background=False):
+        if not background:
+            self.set_busy(True, busy_text, show_progress=show_progress)
         job = Job(fn)
         job.signals.log.connect(self.append_log)
         job.signals.progress.connect(self.on_progress)
         job.signals.error.connect(error_handler or self.job_error)
-        job.signals.done.connect(lambda result: self.job_done(result, done))
+        job.signals.done.connect(
+            lambda result: self.background_job_done(result, done)
+            if background else self.job_done(result, done)
+        )
         self.pool.start(job)
 
     @Slot(int, int, str)
@@ -493,7 +513,6 @@ class MainWindow(QMainWindow):
 
     def silent_job_error(self, tb):
         self.append_log("Update check skipped: " + (tb.splitlines()[-1] if tb else "unknown error"))
-        self.set_busy(False, "READY")
 
     def job_error(self, tb):
         self.append_log(tb)
@@ -502,6 +521,9 @@ class MainWindow(QMainWindow):
 
     def job_done(self, result, callback):
         self.set_busy(False)
+        callback(result)
+
+    def background_job_done(self, result, callback):
         callback(result)
 
     def detect(self):
@@ -556,7 +578,13 @@ class MainWindow(QMainWindow):
             if not silent:
                 self.append_log("Update manifest refreshed.")
 
-        self.start_job(work, done, "CHECKING", error_handler=self.silent_job_error if silent else None)
+        self.start_job(
+            work,
+            done,
+            None if silent else "CHECKING",
+            error_handler=self.silent_job_error if silent else None,
+            background=silent,
+        )
 
     def sync_firmware(self):
         if not self.detected_chip:
@@ -575,7 +603,7 @@ class MainWindow(QMainWindow):
             self.append_log(f"Firmware synced: {path}")
             QMessageBox.information(self, "Firmware", "Firmware đã được tải và kiểm tra SHA256 thành công.")
 
-        self.start_job(work, done, "SYNCING")
+        self.start_job(work, done, "SYNCING", show_progress=True)
 
     def flash(self):
         if not self.detected_chip:
@@ -603,7 +631,7 @@ class MainWindow(QMainWindow):
             self.state_label.setText("FLASH PASS")
             QMessageBox.information(self, "T500 Firmware Flasher", "Nạp firmware + verify thành công.")
 
-        self.start_job(work, done, "FLASHING")
+        self.start_job(work, done, "FLASHING", show_progress=True)
 
     def update_gui(self):
         if not core.gui_update_available(APP_VERSION, self.remote_manifest):
@@ -630,7 +658,7 @@ class MainWindow(QMainWindow):
                 return
             QApplication.quit()
 
-        self.start_job(work, done, "DOWNLOADING")
+        self.start_job(work, done, "DOWNLOADING", show_progress=True)
 
 
 def main():
