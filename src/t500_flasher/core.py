@@ -65,8 +65,27 @@ def sha256_file(path: Path) -> str:
             h.update(block)
     return h.hexdigest()
 
-def run_esptool(args: list[str]) -> tuple[bool, str]:
-    out = io.StringIO()
+def run_esptool(args: list[str], progress=None) -> tuple[bool, str]:
+    class ProgressBuffer(io.StringIO):
+        def __init__(self, callback=None):
+            super().__init__()
+            self.callback = callback
+            self._last_percent = -1
+
+        def write(self, text):
+            n = super().write(text)
+            if self.callback and text:
+                for match in re.finditer(r"(?<![\d.])(\d{1,3}(?:\.\d+)?)%", text):
+                    try:
+                        pct = max(0, min(100, int(float(match.group(1)))))
+                        if pct != self._last_percent:
+                            self._last_percent = pct
+                            self.callback(pct)
+                    except Exception:
+                        pass
+            return n
+
+    out = ProgressBuffer(progress)
     try:
         with redirect_stdout(out), redirect_stderr(out):
             try:
@@ -175,7 +194,7 @@ def sync_firmware(chip: str, manifest: dict, progress=None) -> Path:
     cached_meta_path(chip).write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return target
 
-def flash_firmware(port: str, chip: str, manifest: dict) -> tuple[bool, str]:
+def flash_firmware(port: str, chip: str, manifest: dict, progress=None) -> tuple[bool, str]:
     cfg, segments = resolve_firmware(chip, manifest)
     chip_arg = "esp32s3" if chip == "ESP32-S3" else "esp32"
     args = [
@@ -191,7 +210,7 @@ def flash_firmware(port: str, chip: str, manifest: dict) -> tuple[bool, str]:
     ]
     for offset, path in segments:
         args += [offset, str(path)]
-    return run_esptool(args)
+    return run_esptool(args, progress=progress)
 
 def platform_manifest_key() -> str:
     if os.name == "nt":

@@ -4,7 +4,7 @@ import sys
 import traceback
 from pathlib import Path
 
-from PySide6.QtCore import QObject, QRunnable, QThreadPool, Qt, Signal, Slot
+from PySide6.QtCore import QObject, QRunnable, QThreadPool, QTimer, Qt, Signal, Slot
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QApplication, QComboBox, QFrame, QGridLayout, QHBoxLayout, QLabel,
@@ -101,6 +101,12 @@ QLabel#versionBadge {
     padding: 3px 10px;
     font-size: 11px;
     font-weight: 800;
+}
+QLabel#flashStatus {
+    color: #607C93;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
 }
 
 QComboBox {
@@ -387,10 +393,14 @@ class MainWindow(QMainWindow):
         ft = QVBoxLayout()
         flash_title = QLabel("⚡  NẠP & VERIFY FIRMWARE")
         flash_title.setObjectName("sectionTitle")
-        flash_hint = QLabel("Firmware được chọn tự động theo chip đã nhận diện. Không full-chip erase mặc định.")
+        flash_hint = QLabel("Firmware được chọn tự động theo chip đã nhận diện. Chỉ ghi flash sau khi bấm BẮT ĐẦU FLASH và xác nhận.")
         flash_hint.setObjectName("sectionHint")
+        self.flash_status = QLabel("CHƯA NẠP")
+        self.flash_status.setObjectName("flashStatus")
+        self.flash_status.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         ft.addWidget(flash_title)
         ft.addWidget(flash_hint)
+        ft.addWidget(self.flash_status)
         fh.addLayout(ft, 1)
 
         self.flash_btn = QPushButton("▶  BẮT ĐẦU FLASH")
@@ -402,7 +412,8 @@ class MainWindow(QMainWindow):
         flash_layout.addLayout(fh)
 
         self.progress = QProgressBar()
-        self.progress.setTextVisible(False)
+        self.progress.setTextVisible(True)
+        self.progress.setFormat("%p%")
         self.progress.setRange(0, 100)
         self.progress.setValue(0)
         self.progress.hide()
@@ -445,8 +456,10 @@ class MainWindow(QMainWindow):
         box.setSpacing(2)
         k = QLabel(name)
         k.setObjectName("metric")
+        k.setAlignment(Qt.AlignCenter)
         v = QLabel(initial)
         v.setObjectName("value")
+        v.setAlignment(Qt.AlignCenter)
         v.setTextInteractionFlags(Qt.TextSelectableByMouse)
         box.addWidget(k)
         box.addWidget(v)
@@ -463,7 +476,9 @@ class MainWindow(QMainWindow):
 
         if busy and show_progress:
             self.progress.show()
-            self.progress.setRange(0, 0)
+            self.progress.setRange(0, 100)
+            self.progress.setValue(0)
+            self.progress.setFormat("%p%")
         elif not busy:
             self.progress.setRange(0, 100)
             self.progress.setValue(0)
@@ -527,13 +542,19 @@ class MainWindow(QMainWindow):
             self.progress.setRange(0, total)
             self.progress.setValue(cur)
         self.state_label.setText(text)
+        if text.startswith("FLASHING"):
+            pct = int((cur * 100) / total) if total else 0
+            self.flash_status.setText(f"ĐANG NẠP • {pct}%")
 
     def silent_job_error(self, tb):
         self.append_log("Update check skipped: " + (tb.splitlines()[-1] if tb else "unknown error"))
 
     def job_error(self, tb):
         self.append_log(tb)
+        was_flashing = self.state_label.text().startswith("FLASHING")
         self.set_busy(False, "FAIL")
+        if was_flashing:
+            self.flash_status.setText("FLASH FAIL")
         QMessageBox.critical(self, "T500 Firmware Flasher", tb.splitlines()[-1] if tb else "Unknown error")
 
     def job_done(self, result, callback):
@@ -621,7 +642,7 @@ class MainWindow(QMainWindow):
             self.append_log(f"Firmware synced: {path}")
             QMessageBox.information(self, "Firmware", "Firmware đã được tải và kiểm tra SHA256 thành công.")
 
-        self.start_job(work, done, "SYNCING", show_progress=True)
+        self.start_job(work, done, "SYNCING")
 
     def flash(self):
         if not self.detected_chip:
@@ -638,8 +659,18 @@ class MainWindow(QMainWindow):
         if reply != QMessageBox.Yes:
             return
 
+        self.flash_status.setText("ĐANG CHỜ XÁC NHẬN NẠP...")
+
         def work(sig):
-            ok, out = core.flash_firmware(port, chip, self.remote_manifest)
+            def flash_progress(percent):
+                sig.progress.emit(percent, 100, f"FLASHING {percent}%")
+
+            ok, out = core.flash_firmware(
+                port,
+                chip,
+                self.remote_manifest,
+                progress=flash_progress,
+            )
             sig.log.emit(out)
             if not ok:
                 raise RuntimeError("Flash failed. Xem log kỹ thuật.")
@@ -647,9 +678,16 @@ class MainWindow(QMainWindow):
 
         def done(_):
             self.state_label.setText("FLASH PASS")
+            self.flash_status.setText("THÀNH CÔNG • 100%")
+            self.progress.show()
+            self.progress.setRange(0, 100)
+            self.progress.setValue(100)
+            self.progress.setFormat("100%")
+            QTimer.singleShot(5000, self.progress.hide)
             QMessageBox.information(self, "T500 Firmware Flasher", "Nạp firmware + verify thành công.")
 
-        self.start_job(work, done, "FLASHING", show_progress=True)
+        self.flash_status.setText("ĐANG NẠP • 0%")
+        self.start_job(work, done, "FLASHING 0%", show_progress=True)
 
     def update_gui(self):
         if not core.gui_update_available(APP_VERSION, self.remote_manifest):
@@ -676,7 +714,7 @@ class MainWindow(QMainWindow):
                 return
             QApplication.quit()
 
-        self.start_job(work, done, "DOWNLOADING", show_progress=True)
+        self.start_job(work, done, "DOWNLOADING")
 
 
 def main():
